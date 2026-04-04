@@ -129,6 +129,24 @@ def test_register_call_with_numeric_string_name() -> None:
             "1,12345,+79990000000,2,John Smith,+15551234567"
         )
 
+def test_register_call_name_cannot_contain_digits() -> None:
+    switchboard = Switchboard()
+
+    with pytest.raises(ValueError):
+        switchboard.register_call(
+            "1,Ivan123,+79990000000,2,John Smith,+15551234567"
+        )
+
+
+def test_register_call_name_can_contain_spaces_and_hyphens() -> None:
+    switchboard = Switchboard()
+
+    call = switchboard.register_call(
+        "1,Ivan Ivanov-Ivanovskiy,+79990000000,2,John Smith,+15551234567"
+    )
+    
+    assert call.caller.fullname == "Ivan Ivanov-Ivanovskiy"
+
 
 def test_register_call_with_invalid_phone() -> None:
     switchboard = Switchboard()
