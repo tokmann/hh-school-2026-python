@@ -46,6 +46,7 @@ def test_register_call_counts_calls_between_local_and_foreign_users() -> None:
     assert switchboard.get_active_calls_count() == 3
     assert switchboard.get_cross_border_calls_count() == 1
 
+
 # Ниже добавил 5 тестов для проверки валидации при создании пользователя в классе User
 def test_validation_id_must_be_int() -> None:
     with pytest.raises(TypeError):
@@ -70,6 +71,7 @@ def test_validation_phone_must_be_str() -> None:
 def test_validation_phone_cannot_be_empty() -> None:
     with pytest.raises(ValueError):
         LocalUser(1, "Ivan Ivanov", "   ")
+
 
 # Так как я добавил в Switchboard новый метод с валидацией, и также добавил проверку на кол-во частей в register_call, то для этого также создал тесты
 def test_register_call_with_insufficient_parts() -> None:
@@ -116,6 +118,15 @@ def test_register_call_with_empty_name() -> None:
     with pytest.raises(ValueError):
         switchboard.register_call(
             "1,   ,+79990000000,2,John Smith,+15551234567"
+        )
+
+
+def test_register_call_with_numeric_string_name() -> None:
+    switchboard = Switchboard()
+
+    with pytest.raises(ValueError):
+        switchboard.register_call(
+            "1,12345,+79990000000,2,John Smith,+15551234567"
         )
 
 

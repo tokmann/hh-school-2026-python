@@ -33,6 +33,9 @@ class Switchboard:
         
         if not name:
             raise ValueError("User name cannot be empty")
+        
+        if name.isdigit():
+            raise ValueError("User name cannot be numeric")
 
         if not phone.startswith('+'):
             raise ValueError("User phone must start with '+'")
